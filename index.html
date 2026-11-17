@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>para ti ⋆౨ৎ˚⟡˖ ࣪</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-night: #0b111e;
+      --paper-dark: #131c2e;
+      --card-elevated: #19253c;
+      --celeste: #7dd3fc;
+      --celeste-soft: rgba(125, 211, 252, 0.16);
+      --celeste-glow: rgba(125, 211, 252, 0.35);
+      --ice: #bae6fd;
+      --ink-light: #e2e8f0;
+      --ink-muted: #94a3b8;
+      --border-night: rgba(125, 211, 252, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-night);
+      background-image:
+        radial-gradient(circle at 20% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 80% 85%, rgba(125, 211, 252, 0.10) 0%, transparent 45%),
+        radial-gradient(rgba(186, 230, 253, 0.12) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 34px 34px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--ink-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 14px 60px;
+      overflow-x: hidden;
+    }
+
+    /* --- PORTADA MODO OSCURO CELESTE --- */
+    .cover-wrapper {
+      margin: auto;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cover-wrapper:hover {
+      transform: translateY(-6px) rotate(-1deg);
+    }
+
+    .dark-envelope {
+      width: 315px;
+      height: 205px;
+      background: linear-gradient(145deg, #152036, #0f172a);
+      border: 1px solid var(--border-night);
+      border-radius: 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 25px rgba(125, 211, 252, 0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    /* Cinta washi celeste translúcida */
+    .washi-tape {
+      position: absolute;
+      top: -11px;
+      width: 105px;
+      height: 24px;
+      background-color: rgba(125, 211, 252, 0.28);
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.12) 50%, transparent 50%),
+                        linear-gradient(rgba(255,255,255,0.12) 50%, transparent 50%);
+      background-size: 8px 8px;
+      border-left: 1px dotted rgba(186, 230, 253, 0.4);
+      border-right: 1px dotted rgba(186, 230, 253, 0.4);
+      transform: rotate(-2deg);
+    }
+
+    .wax-celeste {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #38bdf8, #0284c7);
+      border: 1.5px solid var(--ice);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+      animation: softPulse 2.4s infinite ease-in-out;
+    }
+
+    .cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--ice);
+      margin-bottom: 4px;
+    }
+
+    .cover-sub {
+      font-size: 0.78rem;
+      letter-spacing: 2.5px;
+      color: var(--ink-muted);
+    }
+
+    .celeste-pill-btn {
+      background: var(--card-elevated);
+      border: 1px solid var(--border-night);
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--celeste);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: all 0.2s;
+    }
+
+    .celeste-pill-btn:hover {
+      background: var(--celeste-soft);
+      border-color: var(--celeste);
+    }
+
+    /* --- CONTENEDOR DEL JOURNAL --- */
+    .journal-wrap {
+      display: none;
+      max-width: 520px;
+      width: 100%;
+      animation: gentleFade 0.8s ease;
+    }
+
+    /* Mini reproductor estilo vinilo oscuro */
+    .vinyl-bar {
+      background: rgba(19, 28, 46, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-night);
+      border-radius: 50px;
+      padding: 7px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 12px;
+      z-index: 60;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .vinyl-info {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+    }
+
+    .vinyl-disc {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #7dd3fc 22%, #0f172a 26%, #020617 100%);
+      border: 1.5px solid var(--celeste);
+      box-shadow: 0 0 10px rgba(125, 211, 252, 0.3);
+      animation: spinVinyl 6s linear infinite;
+    }
+
+    .vinyl-disc.paused {
+      animation-play-state: paused;
+    }
+
+    .song-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ice);
+    }
+
+    /* Pestañas celestes */
+    .ribbon-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .ribbon-btn {
+      background: var(--paper-dark);
+      border: 1px solid var(--border-night);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .ribbon-btn:hover {
+      color: var(--ice);
+      border-color: var(--celeste);
+    }
+
+    .ribbon-btn.active {
+      background: var(--celeste-soft);
+      border-color: var(--celeste);
+      color: var(--celeste);
+      box-shadow: 0 0 16px rgba(125, 211, 252, 0.2);
+    }
+
+    /* --- HOJA DE CUADERNO MODO OSCURO --- */
+    .paper-page {
+      display: none;
+      background-color: var(--paper-dark);
+      background-image:
+        linear-gradient(to right, rgba(125, 211, 252, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(125, 211, 252, 0.06) 1px, transparent 1px);
+      background-size: 22px 22px;
+      border: 1px solid var(--border-night);
+      border-radius: 26px;
+      padding: 28px 24px 36px;
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .paper-page.active {
+      display: block;
+      animation: gentleFade 0.45s ease;
+    }
+
+    /* Tira superior de fotos */
+    .duo-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 6px;
+      background: #0f172a;
+      border: 1px solid var(--border-night);
+      border-radius: 16px;
+    }
+
+    .duo-strip img {
+      width: 100%;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 11px;
+      cursor: pointer;
+      filter: brightness(0.92);
+      transition: all 0.25s;
+    }
+
+    .duo-strip img:hover {
+      filter: brightness(1.02);
+    }
+
+    .coquette-line {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--celeste);
+      letter-spacing: 3px;
+      margin: 6px 0 12px;
+      opacity: 0.85;
+    }
+
+    .editorial-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .editorial-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.35rem;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.05;
+    }
+
+    .editorial-header .script-accent {
+      font-family: 'Caveat', cursive;
+      font-size: 2.4rem;
+      color: var(--celeste);
+      background: linear-gradient(transparent 58%, rgba(56, 189, 248, 0.25) 58%);
+      padding: 0 10px;
+      display: inline-block;
+      transform: rotate(-1.5deg);
+      text-shadow: 0 0 18px rgba(125, 211, 252, 0.35);
+    }
+
+    .editorial-header p {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      margin-top: 6px;
+      letter-spacing: 0.8px;
+    }
+
+    /* Bloques intercalados estilo Pinterest */
+    .collage-block {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .collage-block.flipped {
+      grid-template-columns: 0.85fr 1.15fr;
+    }
+
+    .journal-prose {
+      font-size: 0.89rem;
+      line-height: 1.68;
+      color: var(--ink-light);
+      font-weight: 400;
+    }
+
+    /* Marco circular con aura celeste */
+    .halo-photo {
+      width: 158px;
+      height: 158px;
+      margin: 0 auto;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, #38bdf8, #bae6fd, #0284c7);
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .halo-photo:hover {
+      transform: scale(1.04) rotate(2deg);
+    }
+
+    .halo-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--paper-dark);
+    }
+
+    /* Polaroid oscura con cinta celeste */
+    .dark-polaroid {
+      position: relative;
+      background: #1e293b;
+      padding: 7px 7px 22px 7px;
+      border-radius: 8px;
+      border: 1px solid var(--border-night);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+      transform: rotate(-2.5deg);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .dark-polaroid.tilt-r {
+      transform: rotate(2.5deg);
+    }
+
+    .dark-polaroid:hover {
+      transform: scale(1.04) rotate(0deg);
+      border-color: var(--celeste);
+    }
+
+    .dark-polaroid::before {
+      content: "";
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 62px;
+      height: 16px;
+      background: rgba(125, 211, 252, 0.32);
+      border-radius: 2px;
+    }
+
+    .dark-polaroid img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    /* Stickers interactivos */
+    .sticker-strip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      margin: 8px 0 20px;
+    }
+
+    .charm-pill {
+      background: var(--card-elevated);
+      border: 1px dashed var(--celeste);
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ice);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .charm-pill:hover {
+      background: var(--celeste-soft);
+      transform: scale(1.05);
+      box-shadow: 0 0 14px rgba(125, 211, 252, 0.25);
+    }
+
+    /* Recortes editoriales "my love" en tonos noche y celeste */
+    .editorial-cutouts {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      margin: 14px 0 18px;
+    }
+
+    .letter-tile {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .lt-1 { background: #0284c7; color: #f0f9ff; transform: rotate(-5deg); font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .lt-2 { background: #1e293b; color: var(--celeste); border: 1px solid var(--border-night); transform: rotate(4deg); }
+    .lt-3 { background: var(--celeste); color: #0f172a; transform: rotate(-3deg); font-family: 'Cormorant Garamond', serif; }
+    .lt-4 { background: #0f172a; color: var(--ice); border: 1px solid var(--border-night); transform: rotate(5deg); }
+    .lt-5 { background: #38bdf8; color: #082f49; transform: rotate(-4deg); font-family: 'Cormorant Garamond', serif; }
+    .lt-6 { background: #1e293b; color: #e0f2fe; border: 1px solid var(--border-night); transform: rotate(3deg); }
+
+    /* --- HOJA 2: JUEGOS EN MODO OSCURO CELESTE --- */
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem;
+      text-align: center;
+      color: var(--ice);
+      margin-bottom: 4px;
+    }
+
+    .section-sub {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      margin-bottom: 18px;
+    }
+
+    .dark-game-card {
+      background: #0f172a;
+      border: 1px solid var(--border-night);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .game-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ice);
+      margin-bottom: 8px;
+    }
+
+    .night-arena {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      background: #080d17;
+      border: 1px dashed var(--celeste);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .celeste-target {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle, #7dd3fc, #0284c7);
+      border: 2px solid #f0f9ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      box-shadow: 0 0 16px rgba(125, 211, 252, 0.55);
+      user-select: none;
+    }
+
+    .chest-dark {
+      width: 84px;
+      height: 76px;
+      margin: 10px auto;
+      background: #1e293b;
+      border: 1.5px solid var(--celeste);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(125, 211, 252, 0.15);
+      transition: transform 0.2s;
+    }
+
+    .chest-dark:hover { transform: scale(1.06); }
+
+    .loot-grid {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .loot-pill {
+      background: var(--card-elevated);
+      border: 1px solid var(--border-night);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ice);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .loot-pill:hover {
+      background: var(--celeste-soft);
+      border-color: var(--celeste);
+    }
+
+    /* --- HOJA 3: PLAYLIST MILO J --- */
+    .track-card {
+      background: #0f172a;
+      border: 1px solid var(--border-night);
+      padding: 12px 16px;
+      border-radius: 16px;
+      margin-bottom: 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .track-card:hover, .track-card.playing {
+      background: var(--celeste-soft);
+      border-color: var(--celeste);
+    }
+
+    /* Modal foto */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 10, 18, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--paper-dark);
+      border: 1px solid var(--border-night);
+      padding: 14px 14px 22px;
+      border-radius: 20px;
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+    }
+
+    .modal-box img {
+      width: 100%;
+      max-height: 310px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 12px;
+    }
+
+    .modal-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: var(--celeste);
+      margin-bottom: 12px;
+    }
+
+    .toast-bubble {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: var(--ice);
+      border: 1px solid var(--celeste);
+      padding: 9px 18px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      z-index: 300;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .star-drop {
+      position: fixed;
+      top: -20px;
+      font-size: 16px;
+      animation: fallDown 5s linear forwards;
+      pointer-events: none;
+      z-index: 120;
+    }
+
+    @keyframes softPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+
+    @keyframes spinVinyl {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gentleFade {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fallDown {
+      to { transform: translateY(108vh) rotate(240deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music"></audio>
+  <div class="toast-bubble" id="toastBubble"></div>
+
+  <!-- Modal para ver fotos -->
+  <div class="modal-bg" id="photoModal" onclick="cerrarModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <img id="modalImg" src="" alt="Recuerdo" />
+      <div class="modal-text" id="modalText"></div>
+      <button class="celeste-pill-btn" onclick="cerrarModal()" style="cursor:pointer;">cerrar ✧</button>
+    </div>
+  </div>
+
+  <!-- 1. PORTADA NOCTURNA CELESTE -->
+  <div class="cover-wrapper" id="coverScreen" onclick="abrirJournal()">
+    <div class="dark-envelope">
+      <div class="washi-tape"></div>
+      <div class="wax-celeste">🩵</div>
+      <div class="cover-title">para mi persona favorita</div>
+      <div class="cover-sub">⋆౨ৎ˚⟡˖ ࣪ 11:11 ⋆౨ৎ˚⟡˖ ࣪</div>
+    </div>
+    <div class="celeste-pill-btn">ABRE TU CARTITA 💌</div>
+  </div>
+
+  <!-- 2. CUADERNO PRINCIPAL -->
+  <div class="journal-wrap" id="journalWrap">
+
+    <!-- Barra de música con vinilo -->
+    <div class="vinyl-bar">
+      <div class="vinyl-info" onclick="toggleMusica()">
+        <div class="vinyl-disc" id="vinylDisc"></div>
+        <span class="song-name" id="songTitle">Milo J — AMORCITO </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 0.78rem; color: var(--celeste);">🔉</span>
+        <input type="range" min="0" max="1" step="0.05" value="0.20" oninput="cambiarVolumen(this.value)" style="width: 65px; accent-color: var(--celeste);" />
+      </div>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="ribbon-tabs">
+      <button class="ribbon-btn active" onclick="verPagina('carta', this)">💌 CARTA</button>
+      <button class="ribbon-btn" onclick="verPagina('juegos', this)">🎮 GAMES</button>
+      <button class="ribbon-btn" onclick="verPagina('musica', this)">🎧 DEDICADAS</button>
+    </div>
+
+    <!-- PÁGINA 1: SCRAPBOOK NOCTURNO CELESTE -->
+    <div class="paper-page active" id="page-carta">
+      
+      <div class="duo-strip">
+        <img src="foto2.jpg" alt="Nosotros 1" onclick="abrirModal('foto2.jpg', 'mis ojos favoritos en el mundo 🩵')" />
+        <img src="foto1.jpg" alt="Nosotros 2" onerror="this.src='foto1.jpg'" onclick="abrirModal(this.src, 'siempre pensando en ti ❄️✨')" />
+      </div>
+
+      <div class="coquette-line">────── ౨ৎ ──────</div>
+
+      <div class="editorial-header">
+        <h1>para ti,</h1>
+        <div class="script-accent">mi amor ⋆౨ৎ˚</div>
+        <p>toca las fotitos 🩵</p>
+      </div>
+
+      <!-- Fila 1 -->
+      <div class="collage-block">
+        <div class="journal-prose">
+          Quise hacer este pequeño rincón solo para ti, porque cada día a tu lado se siente tranquilo y bonito. No importa si estamos hablando, jugando o pasando el rato siempre logras sacarme una sonrisa y alegrarme el día entero.
+        </div>
+        <div class="halo-photo" onclick="abrirModal('foto3.jpg', 'contigo todo es más bonito 🩵✨')">
+          <img src="foto3.jpg" alt="Nosotros" />
+        </div>
+      </div>
+
+      <!-- Stickers interactivos -->
+      <div class="sticker-strip">
+        <div class="charm-pill" onclick="deseo1111()">✦ 11:11 ✦</div>
+        <div class="charm-pill" onclick="mostrarMensaje('🐾 Snoopy diria: son el mejor equipo del mundo 🩵')">🐾 snoopy</div>
+      </div>
+
+      <!-- Fila 2 -->
+      <div class="collage-block flipped">
+        <div class="dark-polaroid" onclick="abrirModal(this.querySelector('img').src, 'mi lugar seguro siempre vas a ser tú 💌')">
+          <img src="foto4.jpg" alt="Recuerdo" onerror="this.src='foto4.jpg'" />
+        </div>
+        <div class="journal-prose">
+          Te quiero muchísimo, tanto que a veces no alcanzan las palabras para explicarlo. Gracias por existir, por tu forma de ser y por acompañarme en todo. Eres mi primer pensamiento al despertar y el último antes de irme a dormir.
+        </div>
+      </div>
+
+      <!-- Recortes editoriales -->
+      <div class="editorial-cutouts">
+        <span class="letter-tile lt-1">m</span>
+        <span class="letter-tile lt-2">i</span>
+        <span style="width: 6px;"></span>
+        <span class="letter-tile lt-3">n</span>
+        <span class="letter-tile lt-4">i</span>
+        <span class="letter-tile lt-5">ñ</span>
+        <span class="letter-tile lt-6">a</span>
+      </div>
+
+      <!-- Fila 3 -->
+      <div class="collage-block" style="margin-bottom: 0;">
+        <div class="journal-prose">
+          No importa qué pase ni qué mundo estemos explorando, siempre voy a elegir estar en tu equipo. Nadie puede cambiar el cariño tan grande que siento por ti 🩵🌌
+        </div>
+        <div class="dark-polaroid tilt-r" onclick="abrirModal(this.querySelector('img').src, 'por mil aventuras más juntos ✨')">
+          <img src="foto5.jpg" alt="Recuerdo 2" onerror="this.src='foto5.jpg'" />
+        </div>
+      </div>
+    </div>
+
+    <!-- PÁGINA 2: NUESTROS JUEGOS -->
+    <div class="paper-page" id="page-juegos">
+      <div class="section-heading">nuestros mundos duo</div>
+      <div class="section-sub">pequeños recuerdos de lo que jugamos juntos ⋆౨ৎ˚</div>
+
+      <!-- Valorant -->
+      <div class="dark-game-card">
+        <div class="game-card-top">
+          <span>🎯 VALORANT — Prueba de AIM</span>
+          <span id="valoPoints" style="color: var(--celeste);">0 / 5</span>
+        </div>
+        <div class="night-arena" id="nightArena">
+          <div class="celeste-target" id="celesteTarget" onclick="tocarObjetivo()">🩵</div>
+        </div>
+        <div id="mvpNote" style="display:none; text-align:center; font-size:0.85rem; font-weight:600; color:var(--celeste); margin-top:10px;">
+          ✧ CLUTCH! eres la mvp de mi vida te amo mipro 🩵 ✧
+        </div>
+      </div>
+
+      <!-- Minecraft -->
+      <div class="dark-game-card" style="text-align: center;">
+        <div class="game-card-top" style="justify-content: center;">
+          <span>💎 MINECRAFT — Cofre "Haz click en la rosa amor"</span>
+        </div>
+        <div class="chest-dark" onclick="abrirCofre()">🥀</div>
+        <div class="loot-grid" id="lootGrid">
+          <div class="loot-pill" onclick="mostrarMensaje('💎 : Si fueras un mineral serias netherite amor!')">💎<br>Mineral</div>
+          <div class="loot-pill" onclick="mostrarMensaje('🌊 : Eres lo más bonito de este mundo!')">🌊<br>Both</div>
+          <div class="loot-pill" onclick="mostrarMensaje('💙 : Siempre voy a estar contigo!')">💙<br>Lealtad III</div>
+        </div>
+      </div>
+
+      <!-- Roblox -->
+      <div class="dark-game-card" style="text-align: center; margin-bottom: 0;">
+        <div style="font-size: 0.88rem; font-weight: 700; color: var(--ice); margin-bottom: 10px;">🧸 ROBLOX — best duo forever</div>
+        <button class="celeste-pill-btn" id="duoBtn" onclick="confirmarDuo()" style="cursor: pointer;">
+          Renovar duo eterno ✧
+        </button>
+      </div>
+    </div>
+
+    <!-- PÁGINA 3: PLAYLIST MILO J -->
+    <div class="paper-page" id="page-musica">
+      <div class="section-heading">Playlist Milo J</div>
+      <div class="section-sub">Canciones que me recuerdan a ti y te dedico jeje 🎧</div>
+      <div id="playlistBox"></div>
+    </div>
+
+  </div>
+
+  <script>
+    const canciones = [
+      { titulo: "TU MANTA", artista: "Milo J", archivo: "milo1.mp3" },
+      { titulo: "CARENCIAS DE CORDURA", artista: "Milo J", archivo: "milo2.mp3" },
+      { titulo: "SINCERA TE", artista: "Milo J", archivo: "milo3.mp3" },
+      { titulo: "MOROCHA", artista: "Milo J", archivo: "milo4.mp3" },
+      { titulo: "A VOS", artista: "Milo J", archivo: "milo5.mp3" },
+      { titulo: "ALUMBRE", artista: "Milo J", archivo: "milo6.mp3" },
+      { titulo: "AMA DE MI SOL", artista: "Milo J", archivo: "milo7.mp3" }
+    ];
+
+    let trackIdx = 0;
+    let hits = 0;
+    const audio = document.getElementById('bg-music');
+    audio.volume = 0.20; // Volumen suave al 20%
+
+    function abrirJournal() {
+      document.getElementById('coverScreen').style.display = 'none';
+      document.getElementById('journalWrap').style.display = 'block';
+      renderTracks();
+      playSong(0);
+      soltarEstrellas();
+    }
+
+    function verPagina(id, btn) {
+      document.querySelectorAll('.paper-page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.ribbon-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      btn.classList.add('active');
+      if (id === 'juegos') moverObjetivo();
+    }
+
+    function abrirModal(src, texto) {
+      document.getElementById('modalImg').src = src;
+      document.getElementById('modalText').innerText = texto;
+      document.getElementById('photoModal').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('photoModal').style.display = 'none';
+    }
+
+    function deseo1111() {
+      mostrarMensaje('✨ 11:11 — mi deseo siempre eres tú 🩵');
+      soltarEstrellas();
+    }
+
+    function mostrarMensaje(txt) {
+      const b = document.getElementById('toastBubble');
+      b.innerText = txt;
+      b.style.display = 'block';
+      clearTimeout(window.tTimer);
+      window.tTimer = setTimeout(() => b.style.display = 'none', 3000);
+    }
+
+    // Música
+    function renderTracks() {
+      const box = document.getElementById('playlistBox');
+      box.innerHTML = '';
+      canciones.forEach((c, i) => {
+        const div = document.createElement('div');
+        div.className = 'track-card' + (i === trackIdx ? ' playing' : '');
+        div.onclick = () => playSong(i);
+        div.innerHTML = `
+          <div>
+            <strong style="font-size:0.9rem; color:var(--ice);">${c.titulo}</strong><br>
+            <small style="color:var(--ink-muted);">${c.artista}</small>
+          </div>
+          <span style="font-size:0.85rem; color:var(--celeste);">${i === trackIdx ? '🎶' : '▷'}</span>
+        `;
+        box.appendChild(div);
+      });
+    }
+
+    function playSong(i) {
+      trackIdx = i;
+      audio.src = canciones[i].archivo;
+      document.getElementById('songTitle').innerText = `${canciones[i].artista} — ${canciones[i].titulo}`;
+      audio.play().then(() => {
+        document.getElementById('vinylDisc').classList.remove('paused');
+      }).catch(() => {
+        document.getElementById('vinylDisc').classList.add('paused');
+      });
+      renderTracks();
+    }
+
+    audio.addEventListener('ended', () => playSong((trackIdx + 1) % canciones.length));
+
+    function toggleMusica() {
+      const disc = document.getElementById('vinylDisc');
+      if (audio.paused) {
+        audio.play();
+        disc.classList.remove('paused');
+      } else {
+        audio.pause();
+        disc.classList.add('paused');
+      }
+    }
+
+    function cambiarVolumen(v) {
+      audio.volume = v;
+    }
+
+    // Juegos
+    function moverObjetivo() {
+      const arena = document.getElementById('nightArena');
+      const target = document.getElementById('celesteTarget');
+      const maxX = Math.max(10, arena.clientWidth - 48);
+      const maxY = Math.max(10, arena.clientHeight - 48);
+      target.style.left = Math.floor(Math.random() * maxX) + 'px';
+      target.style.top = Math.floor(Math.random() * maxY) + 'px';
+    }
+
+    function tocarObjetivo() {
+      hits++;
+      document.getElementById('valoPoints').innerText = `${hits} / 5`;
+      moverObjetivo();
+      if (hits >= 5) {
+        document.getElementById('mvpNote').style.display = 'block';
+        soltarEstrellas();
+      }
+    }
+
+    function abrirCofre() {
+      document.getElementById('lootGrid').style.display = 'grid';
+      mostrarMensaje('🧰 toca cada recuerdo del cofre');
+    }
+
+    function confirmarDuo() {
+      const btn = document.getElementById('duoBtn');
+      btn.style.background = 'var(--celeste-soft)';
+      btn.style.borderColor = 'var(--celeste)';
+      btn.innerText = 'duo confirmado para siempre 🩵';
+      soltarEstrellas();
+    }
+
+    function soltarEstrellas() {
+      const iconos = ['🩵', '✨', '❄️', '🐾', '🌌'];
+      for (let i = 0; i < 14; i++) {
+        setTimeout(() => {
+          const p = document.createElement('div');
+          p.className = 'star-drop';
+          p.innerText = iconos[Math.floor(Math.random() * iconos.length)];
+          p.style.left = Math.random() * 100 + 'vw';
+          p.style.animationDuration = (Math.random() * 2 + 3) + 's';
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 5000);
+        }, i * 130);
+      }
+    }
+  </script>
+
+</body>
+</html>
